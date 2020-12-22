@@ -6,7 +6,7 @@ V3
 
 DIY Machines project - Domino laying machine.
 
-Instrucitonal build video: https://youtu.be/QsAplPLtriw 
+Instructional build video: https://youtu.be/QsAplPLtriw 
 
 www.youtube.com/c/diymachines
 
