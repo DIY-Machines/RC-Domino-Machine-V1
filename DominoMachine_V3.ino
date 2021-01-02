@@ -7,6 +7,7 @@ V3
 DIY Machines project - Domino laying machine.
 
 Instructional build video: https://youtu.be/QsAplPLtriw 
+Help and FAQs: https://www.diymachines.co.uk/rc-domino-laying-machine
 
 www.youtube.com/c/diymachines
 
@@ -23,7 +24,7 @@ const int dcMotorSpeed = 120; // Adjust the speed/power of the DC motor which in
 
 // You should get Auth Token in the Blynk App when configuring for Bluetooth control
 // Go to the Project Settings (nut icon)
-char auth[] = "put auth token here";
+char auth[] = "MESOKvi72SGmw5OlxhIkjmz7OEHvhYt_";
 
 
 
@@ -211,8 +212,8 @@ void loop()
 void machineMove(String directionToTravel, int numberOfTurns){
 
   while (numberOfTurns > 0){
-    Serial.print("Number of turns remaining for this drawing instruction entry ");
-    Serial.println(numberOfTurns);
+    //Serial.print("Number of turns remaining for this drawing instruction entry ");
+    //Serial.println(numberOfTurns);
 
     
     countDominos();
@@ -267,18 +268,18 @@ void countDominos(){
     remainingInCurrentStack = --remainingInCurrentStack;
     remainingInCarousel = --remainingInCarousel;
   }
-  Serial.print("Number of dominos remaining in current stack ");
-  Serial.println(remainingInCurrentStack);
-  Serial.print("Number of dominos remaining in this carousel ");
-  Serial.println(remainingInCarousel);
-  Serial.println();
+  //Serial.print("Number of dominos remaining in current stack ");
+  //Serial.println(remainingInCurrentStack);
+  //Serial.print("Number of dominos remaining in this carousel ");
+  //Serial.println(remainingInCarousel);
+  //Serial.println();
   Blynk.virtualWrite(V5, remainingInCarousel);
   
   if (remainingInCarousel == 0){
     printToLCD("Carousel empty","refill / replace");
     Blynk.virtualWrite(V4, 255);
     Blynk.setProperty(V4, "color", "#ebb607"); 
-    Serial.println("Need to refill the carousel or replace it with a ready loaded done. Press OK button when remedied....");
+    //Serial.println("Need to refill the carousel or replace it with a ready loaded done. Press OK button when remedied....");
     delay(2000);
     printToLCD("When done press","key to continue");
     lcd_key = read_LCD_buttons();  // read the buttons
@@ -301,7 +302,7 @@ void countDominos(){
 void updateScreen(String directionTravelling, int remainingTurns){
     lcd.clear();
     lcd.setCursor(0,0);
-    Serial.println(directionTravelling);
+    //Serial.println(directionTravelling);
     lcd.print(directionTravelling);
     lcd.setCursor(0,1);
     if (bluetoothControlled == false){
@@ -344,17 +345,17 @@ void moveCarousel(int numberOfTurns){
   lcd.print("Spinning");
   lcd.setCursor(0,1);
   lcd.print("carousel...");
-  Serial.println("Spinnning carousel");
+  //Serial.println("Spinnning carousel");
   int i = numberOfTurns;
     while (i > 0) {
        carouselSwitchState = digitalRead(carouselSwitch);
        while (carouselSwitchState == HIGH){ //not engaged
-        Serial.println("Switch high");
+        //Serial.println("Switch high");
           carouselServo.write(105);
           carouselSwitchState = digitalRead(carouselSwitch);
         }
        while (carouselSwitchState == LOW){  //engaged
-        Serial.println("Switch low");
+        //Serial.println("Switch low");
           carouselServo.write(105);
           carouselSwitchState = digitalRead(carouselSwitch);
         }
@@ -377,11 +378,11 @@ void firebreak(bool toggle){
   if (toggle == true){
     firebreakMode = true;
     printToLCD("Moving to fire","break position.");
-      Serial.println("Fire break mode is enabled");
+      //Serial.println("Fire break mode is enabled");
 
       carouselSwitchState = digitalRead(carouselSwitch);
       while (carouselSwitchState == HIGH){  //not engaged
-        Serial.println("Switch high");
+        //Serial.println("Switch high");
         carouselServo.write(100);
         carouselSwitchState = digitalRead(carouselSwitch);
       }
@@ -393,7 +394,7 @@ void firebreak(bool toggle){
   }
   else{
     firebreakMode = false;
-    Serial.println("Fire break mode is disabled");
+    //Serial.println("Fire break mode is disabled");
     moveCarousel(7);
   }
   
@@ -412,12 +413,12 @@ void endProgramme(){
 
 void bluetoothControl(){
   bluetoothControlled = true;
-  Serial.println("Controlling with bluetooth");
+  //Serial.println("Controlling with bluetooth");
   printToLCD("Connect with the","Blynk app..");
   //SwSerial.begin(9600);
   Blynk.begin(Serial, auth);
   //Blynk.begin(auth);
-  Serial.println("Connected to Blynk");
+  //Serial.println("Connected to Blynk");
   printToLCD("Connected to","Blynk. :-)");
   Blynk_Delay(1000);
   printToLCD("Ready to drive","from your phone.");
@@ -456,10 +457,10 @@ void Blynk_Delay(int milli){
 
   BLYNK_WRITE(V2) {   //used to rotate the carousel
    int pinValue = param.asInt(); // Assigning incoming value from pin V2 to a variable
-   Serial.print("Virtual pin number V2: ");
-   Serial.println(pinValue);
+   //Serial.print("Virtual pin number V2: ");
+   //Serial.println(pinValue);
    if (pinValue == 1) {
-      Serial.println("Moving carousel");
+      //Serial.println("Moving carousel");
       moveCarousel(1); //move the carousel to the next stack
       Blynk.virtualWrite(V0, 0);
     } else {
@@ -470,25 +471,25 @@ void Blynk_Delay(int milli){
     
 BLYNK_WRITE(V1) {    //used to control the steering
   int pinValue = param.asInt(); // Assigning incoming value from pin V1 to a variable
-  Serial.print("Virtual pin number V1: ");
-  Serial.println(pinValue);
+  //Serial.print("Virtual pin number V1: ");
+  //Serial.println(pinValue);
   steeringServo.write(pinValue);
   bumpCarousel(30);  //carousel servo twitches sometime so make sure it is still against the switch
   }
 
 BLYNK_WRITE(V3) {   //used to control direction of travel.i.e forward, backward or stop.
     int pinValue = param.asInt(); // Assigning incoming value from pin V3 to a variable
-    Serial.print("Virtual pin number V3: ");
-    Serial.println(pinValue);
+    //Serial.print("Virtual pin number V3: ");
+    //Serial.println(pinValue);
     blynkDirectionOfTravel = pinValue;
   }
 
 BLYNK_WRITE(V0) {   //used to control if firebreak mode is engaged or not
  int pinValue = param.asInt(); // Assigning incoming value from pin V0 to a variable
- Serial.print("Virtual pin number V0: ");
- Serial.println(pinValue);
+ //Serial.print("Virtual pin number V0: ");
+ //Serial.println(pinValue);
     if (pinValue == 1) {
-      Serial.println("Moving carousel to firebreak position");
+      //Serial.println("Moving carousel to firebreak position");
       firebreak(true); //move the carousel to the firebreak position
     } else {
       firebreak(false);
