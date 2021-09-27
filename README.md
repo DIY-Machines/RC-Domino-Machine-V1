@@ -69,7 +69,7 @@ https://www.diymachines.co.uk/rc-domino-laying-machine
 3D printed parts can be downloaded from here:
 https://www.thingiverse.com/thing:4694940
 
-Support the channel with a one of donation and enjoy the not-yet-patented Rapid Domino Reloader Stick and some extra accessories to print for your dominoes: https://diy-machines.selz.com/item/rapid-domino-reloader-and-fun-accessories-to-print 
+Support the channel with a one of donation and enjoy the not-yet-patented Rapid Domino Reloader Stick and some extra accessories to print for your dominoes: https://www.etsy.com/uk/listing/1077959216
 
 ==========
 
